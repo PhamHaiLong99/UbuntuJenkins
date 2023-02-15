@@ -19,9 +19,9 @@ pipeline {
                     docker.withRegistry(DOCKER_REGISTRY, DOCKER_REGISTRY_CREDENTIALS) {
                     def dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}", './')
                     // dockerImage.push()
-                    dockerImage.push('latest')
+                        dockerImage.push('latest')
+                        // dockerImage.run()
                     }
-                    dockerImage.run()
                 }
             }
         }
