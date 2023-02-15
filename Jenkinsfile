@@ -30,8 +30,8 @@ pipeline {
                 echo "$DOCKER_PREFIX/$IMAGE_NAME"
                 script {
                     docker.withRegistry(DOCKER_REGISTRY, DOCKER_REGISTRY_CREDENTIALS) {
-                        def dockerImage = docker.image("$DOCKER_PREFIX/$IMAGE_NAME")
-                        image.pull('latest')
+                        def dockerImage = docker.image("$DOCKER_PREFIX/$IMAGE_NAME:latest")
+                        image.pull()
                         image.run()
                     }
                 }
