@@ -19,7 +19,17 @@ spec:
       - name: ubuntu
         image: reg.longph.works/ubuntu-test
         imagePullPolicy: IfNotPresent
-        imagePullSecrets:
-        - name: regcred
         ports:
         - containerPort: 80
+      imagePullSecrets:
+      - name: regcred
+      affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                  - k8s-1
+                  - k8s-2
