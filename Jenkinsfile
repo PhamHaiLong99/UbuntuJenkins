@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKER_REGISTRY = 'https://reg.longph.works'
+        DOCKER_PREFIX = "reg.longph.works"
         DOCKER_REGISTRY_CREDENTIALS = 'reg'
         IMAGE_NAME = 'ubuntu-test'
         IMAGE_TAG = sh(returnStdout: true, script: 'echo $BUILD_ID').trim()
@@ -26,11 +27,11 @@ pipeline {
         stage('Pull image and Deploy') {
             steps {
                 echo 'Starting to pull docker image'
-                echo "$IMAGE_NAME:latest"
+                echo "$DOCKER_PREFIX/$IMAGE_NAME"
                 script {
                     docker.withRegistry(DOCKER_REGISTRY, DOCKER_REGISTRY_CREDENTIALS) {
-                        def dockerImage = docker.image("$IMAGE_NAME:latest")
-                        image.pull()
+                        def dockerImage = docker.image("$DOCKER_PREFIX/$IMAGE_NAME")
+                        image.pull('latest')
                         image.run()
                     }
                 }
