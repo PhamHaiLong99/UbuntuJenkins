@@ -26,6 +26,7 @@ pipeline {
         stage('Pull image and Deploy') {
             steps {
                 echo 'Starting to pull docker image'
+                echo "$IMAGE_NAME:latest"
                 script {
                     docker.withRegistry(DOCKER_REGISTRY, DOCKER_REGISTRY_CREDENTIALS) {
                         def dockerImage = docker.image("$IMAGE_NAME:latest")
