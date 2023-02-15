@@ -10,9 +10,6 @@ pipeline {
         // NAMESPACE = '<namespace>'
     }
     stages {
-        checkout scm
-
-        stage 'Pull latest image from private-registry-1'
         stage('Build image') {
             steps {
                 echo 'Starting to build docker image'
@@ -28,31 +25,31 @@ pipeline {
                 }
             }
         }
-        // stage('Pull image and Deploy') {
+        stage('Pull image and Deploy') {
+            steps {
+                echo 'Starting to pull docker image'
+                echo "$DOCKER_PREFIX/$IMAGE_NAME"
+                script {
+                    docker.withRegistry(DOCKER_REGISTRY, DOCKER_REGISTRY_CREDENTIALS) {
+                        def image = docker.image("$IMAGE_NAME:latest")
+                        image.pull()
+                        image.run()
+                    }
+                }
+            }
+        }
+        // stage('Pull image') {
         //     steps {
-        //         echo 'Starting to pull docker image'
-        //         echo "$DOCKER_PREFIX/$IMAGE_NAME"
-        //         script {
-        //             docker.withRegistry(DOCKER_REGISTRY, DOCKER_REGISTRY_CREDENTIALS) {
-        //                 def dockerImage = docker.image("$DOCKER_PREFIX/$IMAGE_NAME:latest")
-        //                 image.pull()
-        //                 image.run()
-        //             }
-        //         }
+        //         sh "docker pull $DOCKER_PREFIX/$IMAGE_NAME:latest"
+        //         echo 'Pull image success'
         //     }
         // }
-        stage('Pull image') {
-            steps {
-                sh "docker pull $DOCKER_PREFIX/$IMAGE_NAME:latest"
-                echo 'Pull image success'
-            }
-        }
-        stage('Run image') {
-            steps {
-                sh "docker run -d $DOCKER_PREFIX/$IMAGE_NAME:latest"
-                echo 'Run image success'
-            }
-        }
+        // stage('Run image') {
+        //     steps {
+        //         sh "docker run -d $DOCKER_PREFIX/$IMAGE_NAME:latest"
+        //         echo 'Run image success'
+        //     }
+        // }
         // stage('Run image') {
         //     steps {
         //         echo 'Starting to run docker image'
