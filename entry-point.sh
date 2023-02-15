@@ -1,4 +1,4 @@
 echo "hihi"
-sleep 10
+# sleep 10
 echo "Hoho"
-sleep 1
+sleep 10
