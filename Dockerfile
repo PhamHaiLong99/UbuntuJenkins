@@ -1,4 +1,4 @@
-FROM unbuntu
+FROM ubuntu
 RUN echo "hello"
 
 COPY entry-point.sh /entry-point.sh
