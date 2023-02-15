@@ -1,4 +1,3 @@
-echo "hihi"
-# sleep 10
+echo "hihi this is new message"
 echo "Hoho"
 sleep 10
