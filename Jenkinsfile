@@ -23,28 +23,28 @@ pipeline {
                 }
             }
         }
-        // stage('Pull image and Deploy') {
+        stage('Pull image and Deploy') {
+            steps {
+                echo 'Starting to pull docker image'
+                script {
+                    docker.withRegistry(DOCKER_REGISTRY, DOCKER_REGISTRY_CREDENTIALS) {
+                        def dockerImage = docker.image("${IMAGE_NAME}:latest}")
+                        image.pull()
+                        image.run()
+                    }
+                }
+            }
+        }
+        // stage('Pull image') {
         //     steps {
-        //         echo 'Starting to pull docker image'
-        //         script {
-        //             docker.withRegistry(DOCKER_REGISTRY, DOCKER_REGISTRY_CREDENTIALS) {
-        //                 def dockerImage = docker.image("${IMAGE_NAME}:${IMAGE_TAG}")
-        //                 image.pull()
-        //                 image.run()
-        //             }
-        //         }
+        //         sh 'docker pull $DOCKER_REGISTRY/$IMAGE_NAME:latest'
         //     }
         // }
-        stage('Pull image') {
-            steps {
-                sh 'docker pull $DOCKER_REGISTRY/$IMAGE_NAME:$IMAGE_TAG'
-            }
-        }
-        stage('Run image') {
-            steps {
-                sh 'docker run -d $DOCKER_REGISTRY/$IMAGE_NAME:$IMAGE_TAG'
-            }
-        }
+        // stage('Run image') {
+        //     steps {
+        //         sh 'docker run -d $DOCKER_REGISTRY/$IMAGE_NAME:latest'
+        //     }
+        // }
         // stage('Run image') {
         //     steps {
         //         echo 'Starting to run docker image'
