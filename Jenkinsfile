@@ -60,32 +60,6 @@ pipeline {
         //         }
         //     }
         // }
-    }
-}
-
-pipeline {
-    agent any
-    environment {
-        KUBECONFIG = '<kubeconfig-id>'
-        NAMESPACE = '<namespace>'
-        IMAGE_NAME = '<image-name>'
-        IMAGE_TAG = 'latest'
-    }
-    stages {
-        stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    def yaml = readFile('deployment.yaml')
-                    def serviceYaml = readFile('service.yaml')
-                    // def deployment = yaml.replaceAll('<image-name>', "${IMAGE_NAME}:${IMAGE_TAG}")
-                    kubernetesDeploy(
-                        configs: serviceYaml + '\n---\n' + deployment,
-                        // kubeconfigId: KUBECONFIG,
-                        namespace: NAMESPACE
-                    )
-                }
-            }
-        }
         stage('Confirm deployment') {
             steps {
                 echo 'Deploy to Kubernetes'
@@ -94,3 +68,35 @@ pipeline {
         }
     }
 }
+
+// pipeline {
+//     agent any
+//     environment {
+//         KUBECONFIG = '<kubeconfig-id>'
+//         NAMESPACE = '<namespace>'
+//         IMAGE_NAME = '<image-name>'
+//         IMAGE_TAG = 'latest'
+//     }
+//     stages {
+//         stage('Deploy to Kubernetes') {
+//             steps {
+//                 script {
+//                     def yaml = readFile('deployment.yaml')
+//                     def serviceYaml = readFile('service.yaml')
+//                     // def deployment = yaml.replaceAll('<image-name>', "${IMAGE_NAME}:${IMAGE_TAG}")
+//                     kubernetesDeploy(
+//                         configs: serviceYaml + '\n---\n' + deployment,
+//                         // kubeconfigId: KUBECONFIG,
+//                         namespace: NAMESPACE
+//                     )
+//                 }
+//             }
+//         }
+//         stage('Confirm deployment') {
+//             steps {
+//                 echo 'Deploy to Kubernetes'
+//                 sh "kubectl apply -k ."
+//             }
+//         }
+//     }
+// }
