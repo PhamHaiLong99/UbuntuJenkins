@@ -8,7 +8,7 @@ pipeline {
                 script {
                     docker.build("ubuntu-test:${env.BUILD_ID}")
                     // customImage.push()
-                    docker.withRegistry('reg.longph.works', 'Y3BlbGFiOkNwZWxhYjEyMyE=') {
+                    docker.withRegistry('reg.longph.works', 'reg') {
                     docker.image('ubuntu-test').push()
                     }
                 }
