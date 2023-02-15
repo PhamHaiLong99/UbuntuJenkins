@@ -1,22 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: ubuntu-deployment
   namespace: fprotect
   labels:
-    app: nginx
+    app: ubuntu
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: ubuntu
   template:
     metadata:
       labels:
-        app: nginx
+        app: ubuntu
     spec:
       containers:
-      - name: nginx
-        image: nginx:latest
+      - name: ubuntu
+        image: reg.longph.works/ubuntu-test
+        imagePullPolicy: IfNotPresent
+        imagePullSecrets:
+        - name: regcred
         ports:
         - containerPort: 80

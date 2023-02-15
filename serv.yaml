@@ -1,13 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
+  name: ubuntu-service
   namespace: fprotect
 spec:
   selector:
-    app: nginx
+    app: ubuntu
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80
-  type: LoadBalancer
