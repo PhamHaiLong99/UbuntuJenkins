@@ -5,5 +5,5 @@ docker push reg.longph.works/ubuntu-test
 echo "Going to sleep for waiting..."
 sleep 2
 
-echo "Deploy K8s"
+echo "Deploy K8s HEHE"
 kubectl apply -k .
