@@ -1,0 +1,58 @@
+pipeline {
+  agent any
+//   environment {
+//     // KUBECONFIG='<kubeconfig-id>'
+//   }
+  stages {
+    stage('Deploy') {
+      steps {
+        script {
+          def deployment = '''
+            apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              name: nginx-deployment
+              namespace: fprotect
+              labels:
+                    app: nginx
+            spec:
+            replicas: 3
+            selector:
+              matchLabels:
+              app: nginx
+            template:
+              metadata:
+                labels:
+                  app: nginx
+              spec:
+                containers:
+                - name: nginx
+                  image: nginx:latest
+                  ports:
+                  - containerPort: 80
+          '''
+          def service = '''
+            apiVersion: v1
+            kind: Service
+            metadata:
+              name: nginx-service
+              namespace: fprotect
+            spec:
+              selector:
+                app: nginx
+              ports:
+              - name: TCP
+                port: 80
+                targetPort: 80
+              type: LoadBalancer
+          '''
+          kubernetesDeploy(
+            configs: deployment + '\n' + service,
+            // kubeconfigId: "${KUBECONFIG}",
+            enableConfigSubstitution: true
+          )
+        }
+      }
+    }
+  }
+}
