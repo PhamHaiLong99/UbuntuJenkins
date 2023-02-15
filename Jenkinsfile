@@ -10,6 +10,9 @@ pipeline {
         // NAMESPACE = '<namespace>'
     }
     stages {
+        checkout scm
+
+        stage 'Pull latest image from private-registry-1'
         stage('Build image') {
             steps {
                 echo 'Starting to build docker image'
