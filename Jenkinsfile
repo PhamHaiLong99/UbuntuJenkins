@@ -5,7 +5,8 @@ pipeline {
         DOCKER_PREFIX = "reg.longph.works"
         DOCKER_REGISTRY_CREDENTIALS = 'reg'
         IMAGE_NAME = 'ubuntu-test'
-        IMAGE_TAG = sh(returnStdout: true, script: 'echo $BUILD_ID').trim()
+        // IMAGE_TAG = sh(returnStdout: true, script: 'echo $BUILD_ID').trim()
+        IMAGE_TAG = 'latest'
         // KUBECONFIG = '<kubeconfig-id>'
         // NAMESPACE = '<namespace>'
     }
