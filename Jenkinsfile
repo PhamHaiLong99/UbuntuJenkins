@@ -20,33 +20,34 @@ pipeline {
                     def dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}", './')
                     // dockerImage.push()
                     dockerImage.push('latest')
-                    } 
-                }
-            }
-        }
-        stage('Pull image and Deploy') {
-            steps {
-                echo 'Starting to pull docker image'
-                echo "$DOCKER_PREFIX/$IMAGE_NAME"
-                script {
-                    docker.withRegistry(DOCKER_REGISTRY, DOCKER_REGISTRY_CREDENTIALS) {
-                        def dockerImage = docker.image("$DOCKER_PREFIX/$IMAGE_NAME:latest")
-                        image.pull()
-                        image.run()
                     }
+                    dockerImage.run()
                 }
             }
         }
-        // stage('Pull image') {
+        // stage('Pull image and Deploy') {
         //     steps {
-        //         sh 'docker pull $DOCKER_REGISTRY/$IMAGE_NAME:latest'
+        //         echo 'Starting to pull docker image'
+        //         echo "$DOCKER_PREFIX/$IMAGE_NAME"
+        //         script {
+        //             docker.withRegistry(DOCKER_REGISTRY, DOCKER_REGISTRY_CREDENTIALS) {
+        //                 def dockerImage = docker.image("$DOCKER_PREFIX/$IMAGE_NAME:latest")
+        //                 image.pull()
+        //                 image.run()
+        //             }
+        //         }
         //     }
         // }
-        // stage('Run image') {
-        //     steps {
-        //         sh 'docker run -d $DOCKER_REGISTRY/$IMAGE_NAME:latest'
-        //     }
-        // }
+        stage('Pull image') {
+            steps {
+                sh "docker pull $DOCKER_PREFIX/$IMAGE_NAME:latest"
+            }
+        }
+        stage('Run image') {
+            steps {
+                sh "docker run -d $DOCKER_PREFIX/$IMAGE_NAME:latest"
+            }
+        }
         // stage('Run image') {
         //     steps {
         //         echo 'Starting to run docker image'
