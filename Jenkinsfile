@@ -12,6 +12,8 @@ pipeline {
         stage('Build image') {
             steps {
                 echo 'Starting to build docker image'
+                echo "$IMAGE_NAME"
+                echo "$IMAGE_TAG"
                 script {
                     docker.withRegistry(DOCKER_REGISTRY, DOCKER_REGISTRY_CREDENTIALS) {
                     def dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}", './')
