@@ -17,7 +17,7 @@ pipeline {
                 script {
                     docker.withRegistry(DOCKER_REGISTRY, DOCKER_REGISTRY_CREDENTIALS) {
                     def dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}", './')
-                    dockerImage.push()
+                    // dockerImage.push()
                     dockerImage.push('latest')
                     } 
                 }
@@ -28,7 +28,7 @@ pipeline {
                 echo 'Starting to pull docker image'
                 script {
                     docker.withRegistry(DOCKER_REGISTRY, DOCKER_REGISTRY_CREDENTIALS) {
-                        def dockerImage = docker.image("${IMAGE_NAME}:latest")
+                        def dockerImage = docker.image("$IMAGE_NAME:latest")
                         image.pull()
                         image.run()
                     }
